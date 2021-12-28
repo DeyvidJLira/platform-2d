@@ -38,6 +38,14 @@ namespace Platform2D.Core {
         private LayerMask _groundMask;
         private bool _onGround;
 
+        [Header("Jump")]
+        [SerializeField]
+        private float _jumpForce;
+        [SerializeField]
+        private bool _enabledDoubleJump = true;
+        private bool _canDoubleJump = false;
+        private bool _onDoubleJump = false;
+
         private void OnEnable() {
             _input.Enable();
         }
@@ -50,6 +58,7 @@ namespace Platform2D.Core {
             _input = new PlayerInput();
             _input.Gameplay.Movement.performed += ctx => Movement(ctx.ReadValue<float>());
             _input.Gameplay.Movement.canceled += ctx => MovementCancelled();
+            _input.Gameplay.Jump.performed += ctx => Jump();
         }
 
         // Start is called before the first frame update
@@ -69,15 +78,20 @@ namespace Platform2D.Core {
 
         private void OnGround() {
             _onGround = Physics2D.Linecast(transform.position, _groundDetector.position, _groundMask);
+            if (_onGround) {
+                _onDoubleJump = false;
+            }
         }
 
         private void UpdateAnimations() {
             _animator.SetBool("onGround", _onGround);
-            _animator.SetBool("velocityX", _velocity.x != 0);
+            _animator.SetBool("run", _rigidbody.velocity.x != 0f && _onGround);
+            _animator.SetFloat("velocityY", _rigidbody.velocity.y);
+            _animator.SetBool("onDoubleJump", _onDoubleJump);
         }
 
         private void FlipX(float direction) {
-            if((direction < 0 && _isFaceToRight) || (direction > 0 && !_isFaceToRight)) {
+            if((direction < 0f && _isFaceToRight) || (direction > 0f && !_isFaceToRight)) {
                 Vector3 scale = transform.localScale;
                 scale.x *= -1;
                 transform.localScale = scale;
@@ -93,5 +107,22 @@ namespace Platform2D.Core {
         private void MovementCancelled() {
             _velocity = new Vector2(0f, _rigidbody.velocity.y);
         }
+
+        private void Jump() {
+            if(_canDoubleJump && !_onGround) {
+                _onDoubleJump = true;
+                _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0f);
+                _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+                _canDoubleJump = false;
+            }
+            if(_onGround) {
+                _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+                if(_enabledDoubleJump) {
+                    _canDoubleJump = true;
+                }
+            }
+        }
+
     }
+
 }
