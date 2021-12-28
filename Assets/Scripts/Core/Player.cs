@@ -9,12 +9,12 @@ namespace Platform2D.Core {
      * @website https://deyvidjlira.com/
      * 
      * @created_at 27/12/2021
-     * @last_update 27/12/2021
+     * @last_update 28/12/2021
      * @description classe responsável por controlar o player
      * 
      */
 
-    public class Player : MonoBehaviour {
+    public class Player : MonoBehaviour, IDamageable {
 
         [Header("Components")]
         private PlayerInput _input;
@@ -24,9 +24,17 @@ namespace Platform2D.Core {
         [SerializeField]
         private Animator _animator;
 
-        [Header("Movement")]
+        [Header("Attributes")]
+        [SerializeField]
+        private int _health;
+        [SerializeField]
+        private int _damage;
         [SerializeField]
         private float _speed = 2f;
+        [SerializeField]
+        private float _jumpForce;
+
+        [Header("Movement")]
         [SerializeField]
         private bool _isFaceToRight = true;
         private Vector2 _velocity;
@@ -40,8 +48,6 @@ namespace Platform2D.Core {
 
         [Header("Jump")]
         [SerializeField]
-        private float _jumpForce;
-        [SerializeField]
         private bool _enabledDoubleJump = true;
         private bool _canDoubleJump = false;
         private bool _onDoubleJump = false;
@@ -53,6 +59,7 @@ namespace Platform2D.Core {
         private float _attackRadius;
         [SerializeField]
         private LayerMask _attackLayerMask;
+        private bool _isInvencible = false;
 
         private void OnEnable() {
             _input.Enable();
@@ -138,13 +145,36 @@ namespace Platform2D.Core {
             Collider2D hit = Physics2D.OverlapCircle(_attackPoint.position, _attackRadius, _attackLayerMask);
 
             if(hit != null) {
-                Debug.Log(hit.name);
+                var enemyDamageable = hit.GetComponent<IDamageable>();
+                enemyDamageable.Damaged(_damage);
             }
         }
 
         private void OnDrawGizmos() {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(_attackPoint.position, _attackRadius);
+        }        
+
+        private void Die() {
+            _animator.SetTrigger("die");
+        }
+
+        protected void AfterHit() {
+            if (_health <= 0) return;
+            _isInvencible = false;
+            _input.Enable();
+        }
+
+        public void Damaged(int damage) {
+            if (_isInvencible) return;
+            _isInvencible = true;
+            _input.Disable();
+            _health -= damage;
+            if(_health <= 0) {
+                Die();
+            } else {
+                _animator.SetTrigger("hit");
+            }
         }
 
     }
