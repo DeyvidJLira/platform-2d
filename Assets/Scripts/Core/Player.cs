@@ -35,7 +35,7 @@ namespace Platform2D.Core {
         [SerializeField]
         private Transform _groundDetector;
         [SerializeField]
-        private LayerMask _groundMask;
+        private LayerMask _groundLayerMask;
         private bool _onGround;
 
         [Header("Jump")]
@@ -45,6 +45,14 @@ namespace Platform2D.Core {
         private bool _enabledDoubleJump = true;
         private bool _canDoubleJump = false;
         private bool _onDoubleJump = false;
+
+        [Header("Attack")]
+        [SerializeField]
+        private Transform _attackPoint;
+        [SerializeField]
+        private float _attackRadius;
+        [SerializeField]
+        private LayerMask _attackLayerMask;
 
         private void OnEnable() {
             _input.Enable();
@@ -59,6 +67,7 @@ namespace Platform2D.Core {
             _input.Gameplay.Movement.performed += ctx => Movement(ctx.ReadValue<float>());
             _input.Gameplay.Movement.canceled += ctx => MovementCancelled();
             _input.Gameplay.Jump.performed += ctx => Jump();
+            _input.Gameplay.Attack.performed += ctx => Attack();
         }
 
         // Start is called before the first frame update
@@ -77,7 +86,7 @@ namespace Platform2D.Core {
         }
 
         private void OnGround() {
-            _onGround = Physics2D.Linecast(transform.position, _groundDetector.position, _groundMask);
+            _onGround = Physics2D.Linecast(transform.position, _groundDetector.position, _groundLayerMask);
             if (_onGround) {
                 _onDoubleJump = false;
             }
@@ -121,6 +130,21 @@ namespace Platform2D.Core {
                     _canDoubleJump = true;
                 }
             }
+        }
+
+        private void Attack() {
+            _animator.SetTrigger("attack");
+
+            Collider2D hit = Physics2D.OverlapCircle(_attackPoint.position, _attackRadius, _attackLayerMask);
+
+            if(hit != null) {
+                Debug.Log(hit.name);
+            }
+        }
+
+        private void OnDrawGizmos() {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(_attackPoint.position, _attackRadius);
         }
 
     }

@@ -35,6 +35,14 @@ namespace Platform2D.Core
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""efc66dec-93e7-4935-8e1a-89b8395b32c6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -81,6 +89,17 @@ namespace Platform2D.Core
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""92f0d0db-2a65-4cd8-a164-3a13988872c8"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -91,6 +110,7 @@ namespace Platform2D.Core
             m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
             m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
             m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
+            m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -142,12 +162,14 @@ namespace Platform2D.Core
         private IGameplayActions m_GameplayActionsCallbackInterface;
         private readonly InputAction m_Gameplay_Movement;
         private readonly InputAction m_Gameplay_Jump;
+        private readonly InputAction m_Gameplay_Attack;
         public struct GameplayActions
         {
             private @PlayerInput m_Wrapper;
             public GameplayActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
             public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
+            public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
             public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -163,6 +185,9 @@ namespace Platform2D.Core
                     @Jump.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
                     @Jump.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
                     @Jump.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
+                    @Attack.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
+                    @Attack.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
+                    @Attack.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
                 }
                 m_Wrapper.m_GameplayActionsCallbackInterface = instance;
                 if (instance != null)
@@ -173,6 +198,9 @@ namespace Platform2D.Core
                     @Jump.started += instance.OnJump;
                     @Jump.performed += instance.OnJump;
                     @Jump.canceled += instance.OnJump;
+                    @Attack.started += instance.OnAttack;
+                    @Attack.performed += instance.OnAttack;
+                    @Attack.canceled += instance.OnAttack;
                 }
             }
         }
@@ -181,6 +209,7 @@ namespace Platform2D.Core
         {
             void OnMovement(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
+            void OnAttack(InputAction.CallbackContext context);
         }
     }
 }
