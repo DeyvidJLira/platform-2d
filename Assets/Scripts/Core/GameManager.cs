@@ -2,6 +2,7 @@ using Platform2D.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Platform2D.Core {
 
@@ -56,6 +57,16 @@ namespace Platform2D.Core {
         public void DecreaseLife(int points) {
             _lifePoints -= points;
             LifeUI.Instance.DrawLife();
+        }
+
+        public void GameOver() {
+            Time.timeScale = 0;
+            GameOverUI.Instance.ShowGameOver();
+        }
+
+        public void RestartGame() {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Time.timeScale = 1;
         }
     }
 }

@@ -157,6 +157,10 @@ namespace Platform2D.Core {
             _animator.SetTrigger("die");
         }
 
+        private void AnimationDieFinished() {
+            GameManager.Instance.GameOver();
+        }
+
         protected void AfterHit() {
             if (GameManager.Instance.GetLifePoints() <= 0) return;
             _isInvencible = false;

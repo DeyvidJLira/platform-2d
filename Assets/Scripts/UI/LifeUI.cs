@@ -5,6 +5,17 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Platform2D.UI {
+
+    /*
+     * @author Deyvid Jaguaribe
+     * @website https://deyvidjlira.com/
+     * 
+     * @created_at 29/12/2021
+     * @last_update 29/12/2021
+     * @description classe responsável por controlar a representação de contador de vidas
+     * 
+     */
+
     public class LifeUI : MonoBehaviour {
 
         public static LifeUI Instance {
