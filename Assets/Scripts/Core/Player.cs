@@ -9,7 +9,7 @@ namespace Platform2D.Core {
      * @website https://deyvidjlira.com/
      * 
      * @created_at 27/12/2021
-     * @last_update 28/12/2021
+     * @last_update 29/12/2021
      * @description classe responsável por controlar o player
      * 
      */
@@ -25,8 +25,6 @@ namespace Platform2D.Core {
         private Animator _animator;
 
         [Header("Attributes")]
-        [SerializeField]
-        private int _health;
         [SerializeField]
         private int _damage;
         [SerializeField]
@@ -160,7 +158,7 @@ namespace Platform2D.Core {
         }
 
         protected void AfterHit() {
-            if (_health <= 0) return;
+            if (GameManager.Instance.GetLifePoints() <= 0) return;
             _isInvencible = false;
             _input.Enable();
         }
@@ -169,8 +167,8 @@ namespace Platform2D.Core {
             if (_isInvencible) return;
             _isInvencible = true;
             _input.Disable();
-            _health -= damage;
-            if(_health <= 0) {
+            GameManager.Instance.DecreaseLife(damage);
+            if(GameManager.Instance.GetLifePoints() <= 0) {
                 Die();
             } else {
                 _animator.SetTrigger("hit");
