@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CoinAOC
+  m_Controller: {fileID: 9100000, guid: e4af65de0d3fe834c8addcfdcdff0860, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 8235363d9b244a844a174083fcb9c3ca, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d9849a05360618d488135b97a5a59334, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 803bf0272c1706d4b94cb2d089968a81, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3bf9ed0840a0dd540a0ac8c239c39a39, type: 2}

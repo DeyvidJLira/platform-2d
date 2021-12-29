@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - Stone
+  - Collectable
   layers:
   - Default
   - TransparentFX
@@ -16,8 +18,8 @@ TagManager:
   - Enemy
   - Barrier
   - Wall
-  - 
-  - 
+  - Button
+  - Collectable
   - 
   - 
   - 
