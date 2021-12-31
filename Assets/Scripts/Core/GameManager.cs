@@ -11,7 +11,7 @@ namespace Platform2D.Core {
      * @website https://deyvidjlira.com/
      * 
      * @created_at 29/12/2021
-     * @last_update 29/12/2021
+     * @last_update 31/12/2021
      * @description classe responsável por gerenciar elementos persistentes no jogo
      * 
      */
@@ -29,6 +29,7 @@ namespace Platform2D.Core {
 
         private static GameManager _instance;
 
+        private int _level = 1;
         private int _lifePoints = 3;
         private int _coin = 0;
 
@@ -67,6 +68,17 @@ namespace Platform2D.Core {
         public void RestartGame() {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             Time.timeScale = 1;
+        }
+
+        public void NewGame() {
+            _level = 1;
+            _lifePoints = 3;
+            _coin = 0;
+        }
+
+        public void NextLevel() {
+            _level++;
+            SceneManager.LoadScene(_level);
         }
     }
 }

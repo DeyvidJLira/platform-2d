@@ -1,3 +1,4 @@
+using Platform2D.Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Platform2D.UI {
      * @website https://deyvidjlira.com/
      * 
      * @created_at 29/12/2021
-     * @last_update 29/12/2021
+     * @last_update 31/12/2021
      * @description classe responsável por controlar a janela de menu
      * 
      */
@@ -18,6 +19,7 @@ namespace Platform2D.UI {
     public class MenuUI : MonoBehaviour {
 
         public void PlayGame() {
+            GameManager.Instance.NewGame();
             SceneManager.LoadScene(1);
         }
 
