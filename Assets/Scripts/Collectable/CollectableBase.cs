@@ -19,6 +19,9 @@ namespace Platform2D.Items {
 
         private Animator _animator;
 
+        [SerializeField]
+        private AudioClip _collectedSE;
+
         // Start is called before the first frame update
         void Start() {
             _animator = GetComponent<Animator>();
@@ -32,6 +35,7 @@ namespace Platform2D.Items {
 
         void OnTriggerEnter2D(Collider2D collision) {
             if(collision.tag == "Player") {
+                AudioManager.Instance.PlaySE(_collectedSE);
                 _animator.SetTrigger("collect");
                 Collect();
             }

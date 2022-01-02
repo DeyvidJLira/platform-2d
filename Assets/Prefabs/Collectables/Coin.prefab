@@ -132,4 +132,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6228bcbcc31a354db9317b98d725047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _collectedSE: {fileID: 8300000, guid: cb6eead0cf81d1f408803500b2133d3e, type: 3}
   _coins: 1

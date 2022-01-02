@@ -46,11 +46,15 @@ namespace Platform2D.Core {
 
         [Header("Jump")]
         [SerializeField]
+        private AudioClip _jumpSE;
+        [SerializeField]
         private bool _enabledDoubleJump = true;
         private bool _canDoubleJump = false;
         private bool _onDoubleJump = false;
 
         [Header("Attack")]
+        [SerializeField]
+        private AudioClip _attackSE;
         [SerializeField]
         private Transform _attackPoint;
         [SerializeField]
@@ -124,12 +128,14 @@ namespace Platform2D.Core {
 
         private void Jump() {
             if(_canDoubleJump && !_onGround) {
+                AudioManager.Instance.PlaySE(_jumpSE);
                 _onDoubleJump = true;
                 _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0f);
                 _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
                 _canDoubleJump = false;
             }
             if(_onGround) {
+                AudioManager.Instance.PlaySE(_jumpSE);
                 _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
                 if(_enabledDoubleJump) {
                     _canDoubleJump = true;
@@ -139,6 +145,8 @@ namespace Platform2D.Core {
 
         private void Attack() {
             _animator.SetTrigger("attack");
+
+            AudioManager.Instance.PlaySE(_attackSE);
 
             Collider2D hit = Physics2D.OverlapCircle(_attackPoint.position, _attackRadius, _attackLayerMask);
 
