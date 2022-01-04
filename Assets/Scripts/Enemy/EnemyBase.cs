@@ -10,7 +10,7 @@ namespace Platform2D.Enemy {
     * @website https://deyvidjlira.com/
     * 
     * @created_at 28/12/2021
-    * @last_update 28/12/2021
+    * @last_update 03/01/2021
     * @description classe que estabelece a base de um inimigo
     * 
     */
@@ -31,6 +31,10 @@ namespace Platform2D.Enemy {
         void Start() {
             _rigidbody = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
+        }
+
+        protected bool IsAlive() {
+            return _health > 0;
         }
 
         protected void Die() {

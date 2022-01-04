@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 68868697390159022}
   - component: {fileID: 68868697390159016}
   - component: {fileID: 68868697390159023}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -88,7 +88,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sprite: {fileID: 68868697390159016}
   _animator: {fileID: 68868697390159023}
-  _health: 3
   _damage: 2
   _speed: 2
   _jumpForce: 5
@@ -97,7 +96,9 @@ MonoBehaviour:
   _groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  _jumpSE: {fileID: 0}
   _enabledDoubleJump: 1
+  _attackSE: {fileID: 0}
   _attackPoint: {fileID: 68868697408060566}
   _attackRadius: 0.25
   _attackLayerMask:
@@ -182,7 +183,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 68868697408060566}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: attackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +213,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 68868697416320762}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: groundDetector
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
